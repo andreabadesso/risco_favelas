@@ -1,0 +1,25 @@
+{
+  "name": "risco_favelas",
+  "version": "0.0.1",
+  "description": "Mapeador de Risco de Favelas no Rio de Janeiro",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/andreabadesso/risco_favelas.git"
+  },
+  "keywords": [
+    "favelas",
+    "risco",
+    "waze",
+    "perigo"
+  ],
+  "author": "André Abadesso",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andreabadesso/risco_favelas/issues"
+  },
+  "homepage": "https://github.com/andreabadesso/risco_favelas#readme"
+}
