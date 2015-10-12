@@ -23,7 +23,10 @@
   },
   "homepage": "https://github.com/andreabadesso/risco_favelas#readme",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
-    "pg": "^4.4.2"
+    "lodash": "^3.10.1",
+    "pg": "^4.4.2",
+    "wellknown": "^0.4.0"
   }
 }
