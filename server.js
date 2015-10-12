@@ -8,7 +8,12 @@
 
     app.use(bodyParser());
 
-    app.post('/areas', function(req, res) {
+    app.post('/', function(req, res) {
+        let route = req.body.route;
+        areas.calculateRisk(route, (result) => res.send(result));
+    });
+
+    app.post('/rota_risco/areas', function(req, res) {
         let route = req.body.route;
         areas.calculateRisk(route, (result) => res.send(result));
     });
@@ -24,12 +29,7 @@
             res.send('Delete id: ' + req.params.id);
         });
 
-
-    app.get('/', function(req, res) {
-        res.send('wat');
-    });
-
-    const server = app.listen(3000, function() {
-        console.log('Express is listening to http://localhost:3000');
+    const server = app.listen(3001, function() {
+        console.log('Express is listening to http://localhost:3001');
     });
 }());

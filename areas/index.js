@@ -19,13 +19,21 @@
             linha AS (
                 SELECT ST_GeomFromEWKT('SRID=4326;${wkt}')
             ),
+            areas_close AS (
+                SELECT * FROM "Areas"
+                    WHERE
+                ST_Distance(
+                    CAST(ST_Centroid((SELECT * FROM linha)) AS geography),
+                    CAST(geom AS geography)
+                ) < 2000
+            ),
             areas_buffer_100metros AS (
                 SELECT
                     ST_Buffer(CAST(geom AS geography), 100)::geometry as geom,
                     id,
                     (criticidade * 0.7) AS criticidade,
                     nome
-                FROM "Areas"
+                FROM areas_close
             ),
             areas_buffer_200metros AS (
                 SELECT
@@ -33,7 +41,7 @@
                     id,
                     (criticidade * 0.3) AS criticidade,
                     nome
-                FROM "Areas"
+                FROM areas_close
             ),
             areas_buffer_400metros AS (
                 SELECT
@@ -41,7 +49,7 @@
                     id,
                     (criticidade * 0.1) AS criticidade,
                     nome
-                FROM "Areas"
+                FROM areas_close
             )
 
             (
@@ -50,7 +58,7 @@
                     ST_AsGeoJSON(geom) AS geojson,
                     criticidade,
                     nome
-                FROM "Areas"
+                FROM areas_close
                 WHERE
                     ST_Disjoint(
                         geom,
