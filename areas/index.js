@@ -29,6 +29,7 @@
             ),
             areas_buffer_100metros AS (
                 SELECT
+                    ST_AsGeoJSON(geom) AS geojson_original,
                     ST_Buffer(CAST(geom AS geography), 100)::geometry as geom,
                     id,
                     (criticidade * 0.7) AS criticidade,
@@ -37,6 +38,7 @@
             ),
             areas_buffer_200metros AS (
                 SELECT
+                    ST_AsGeoJSON(geom) AS geojson_original,
                     ST_Buffer(CAST(geom AS geography), 200)::geometry AS geom,
                     id,
                     (criticidade * 0.3) AS criticidade,
@@ -45,6 +47,7 @@
             ),
             areas_buffer_400metros AS (
                 SELECT
+                    ST_AsGeoJSON(geom) AS geojson_original,
                     ST_Buffer(CAST(geom AS geography), 400)::geometry AS geom,
                     id,
                     (criticidade * 0.1) AS criticidade,
@@ -55,6 +58,7 @@
             (
                 SELECT
                     id,
+                    ST_AsGeoJSON(geom) AS geojson_original,
                     ST_AsGeoJSON(geom) AS geojson,
                     criticidade,
                     nome
@@ -69,6 +73,7 @@
             (
                 SELECT
                     areas_buffer_100metros.id,
+                    areas_buffer_100metros.geojson_original,
                     ST_AsGeoJSON(areas_buffer_100metros.geom) AS geojson,
                     areas_buffer_100metros.criticidade,
                     areas_buffer_100metros.nome
@@ -84,6 +89,7 @@
             (
                 SELECT
                     areas_buffer_200metros.id,
+                    areas_buffer_200metros.geojson_original,
                     ST_AsGeoJSON(areas_buffer_200metros.geom) AS geojson,
                     areas_buffer_200metros.criticidade,
                     areas_buffer_200metros.nome
@@ -99,6 +105,7 @@
             (
                 SELECT
                     areas_buffer_400metros.id,
+                    areas_buffer_400metros.geojson_original,
                     ST_AsGeoJSON(areas_buffer_400metros.geom) AS geojson,
                     areas_buffer_400metros.criticidade,
                     areas_buffer_400metros.nome
@@ -116,7 +123,7 @@
                     return console.error('error running query', err);
                 }
                 result = result.rows.map(function(row) {
-                    row.geojson = JSON.parse(row.geojson);
+                    row.geojson = JSON.parse(row.geojson_original || row.geojson);
                     return row;
                 });
 
